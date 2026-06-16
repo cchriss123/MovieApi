@@ -1,0 +1,27 @@
+﻿services:
+  movieapi:
+    image: movieapi
+    build:
+      context: .
+      dockerfile: MovieApi/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__MovieContext: "Server=db,1433;Database=MovieDb;User Id=sa;Password=Password123!;TrustServerCertificate=True;"
+    depends_on:
+      - db
+
+  db:
+    image: mcr.microsoft.com/azure-sql-edge
+    container_name: movie-db
+    environment:
+      ACCEPT_EULA: "1"
+      MSSQL_SA_PASSWORD: "Password123!"
+    ports:
+      - "1434:1433"
+    volumes:
+      - movieapi-sql-data:/var/opt/mssql
+
+volumes:
+  movieapi-sql-data:
