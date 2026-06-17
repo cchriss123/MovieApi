@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MovieApi.Data;
 using Microsoft.Extensions.DependencyInjection;
+using MovieApi.Data.Seed;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +13,16 @@ builder.Services.AddDbContext<MovieApiContext>(options =>
 
 builder.Services.AddControllers();
 
+
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<MovieApiContext>();
+    await DbSeeder.SeedAsync(context);
+}
+
+
 
 // Configure the HTTP request pipeline.
 
