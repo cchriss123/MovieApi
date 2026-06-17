@@ -1,20 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MovieApi.Models;
 
-namespace MovieApi.Data
-{
-    public class MovieApiContext : DbContext
-    {
-        public MovieApiContext (DbContextOptions<MovieApiContext> options)
-            : base(options)
-        {
-        }
+namespace MovieApi.Data;
 
-        public DbSet<MovieApi.Models.Movie> Movie { get; set; } = default!;
-        public DbSet<MovieApi.Models.Actor> Actor { get; set; } = default!;
-    }
+public class MovieApiContext(DbContextOptions<MovieApiContext> options) : DbContext(options)
+{
+    public DbSet<Movie> Movie { get; set; } = null!;
+    public DbSet<Actor> Actor { get; set; } = null!;
+
+    public DbSet<Review> Review { get; set; } = null!;
+    public DbSet<MovieDetails> MovieDetails { get; set; } = null!;
 }
