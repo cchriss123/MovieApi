@@ -25,7 +25,7 @@ public class DbSeeder
                 Genre = "Crime",
                 Duration = "2h 55m",
                 Year = 1972,
-                MovieDetails = new MovieDetails
+                MovieDetails = new MovieDetail
                 {
                     Synopsis = "The aging patriarch of a crime family transfers control of his empire to his reluctant son.",
                     Language = "English",
@@ -43,7 +43,7 @@ public class DbSeeder
                 Genre = "Drama",
                 Duration = "2h 22m",
                 Year = 1994,
-                MovieDetails = new MovieDetails
+                MovieDetails = new MovieDetail
                 {
                     Synopsis = "Two imprisoned men form a lasting friendship while seeking hope and redemption.",
                     Language = "English",
@@ -61,7 +61,7 @@ public class DbSeeder
                 Genre = "Crime",
                 Duration = "2h 34m",
                 Year = 1994,
-                MovieDetails = new MovieDetails
+                MovieDetails = new MovieDetail
                 {
                     Synopsis = "Several connected stories follow criminals, boxers and gangsters in Los Angeles.",
                     Language = "English",

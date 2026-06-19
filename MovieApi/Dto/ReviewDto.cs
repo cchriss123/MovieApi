@@ -3,7 +3,7 @@ using MovieApi.Models;
 
 namespace MovieApi.Dto;
 
-public class ReviewCreateDto
+public class ReviewDto
 {
     [Required]
     [StringLength(100)]
