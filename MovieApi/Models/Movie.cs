@@ -18,7 +18,7 @@ public class Movie
     [StringLength(20)]
     public required string Duration { get; set; }
 
-    public MovieDetails? MovieDetails { get; set; }
+    public MovieDetail? MovieDetails { get; set; }
 
     public ICollection<Review> Reviews { get; set; } = new List<Review>();
 

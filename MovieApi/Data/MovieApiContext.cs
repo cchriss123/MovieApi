@@ -9,5 +9,5 @@ public class MovieApiContext(DbContextOptions<MovieApiContext> options) : DbCont
     public DbSet<Actor> Actor { get; set; } = null!;
 
     public DbSet<Review> Review { get; set; } = null!;
-    public DbSet<MovieDetails> MovieDetails { get; set; } = null!;
+    public DbSet<MovieDetail> MovieDetails { get; set; } = null!;
 }
