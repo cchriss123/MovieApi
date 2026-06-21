@@ -58,7 +58,7 @@ namespace MovieApi.Controllers
             var movie = MovieMapper.MapCreate(createMovieDto);
             context.Movie.Add(movie);
             await context.SaveChangesAsync();
-            return new MovieDto(movie);
+            return CreatedAtAction("GetMovie", new { id = movie.Id }, new MovieDto(movie));
         }
         
 
