@@ -4,6 +4,8 @@ namespace MovieApi.Dto;
 
 public class MovieUpdateDto
 {
+    
+    
     [Required]
     [StringLength(100)]
     public string Title { get; set; } = string.Empty;
