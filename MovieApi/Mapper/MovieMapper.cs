@@ -21,5 +21,13 @@ public static class MovieMapper
             Duration = createMovieDto.Duration
         };
     }
+    
+    public static void MapUpdate(Movie movie, MovieUpdateDto updateMovieDto)
+    {
+        movie.Title = updateMovieDto.Title;
+        movie.Genre = updateMovieDto.Genre;
+        movie.Year = updateMovieDto.Year;
+        movie.Duration = updateMovieDto.Duration;
+    }
 }
 

@@ -89,20 +89,28 @@ namespace MovieApi.Controllers
         // }
         //
 
-        // DELETE: api/Movies/5
-        [HttpDelete("{id:int}")]
-        public async Task<IActionResult> DeleteMovie(int id)
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> PutMovie(int id, MovieUpdateDto movieUpdateDto)
         {
+
+            
             var movie = await context.Movie.FindAsync(id);
-            if (movie == null)
+            if (movie == null) return NotFound();
+            
+            MovieMapper.MapUpdate(movie, movieUpdateDto);
+            
+            try
             {
-                return NotFound();
+                await context.SaveChangesAsync();
             }
-        
-            context.Movie.Remove(movie);
-            await context.SaveChangesAsync();
-        
-            return NoContent();
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!MovieExists(id))
+                    return NotFound();
+                throw;
+            }
+
+            return Ok(new MovieDto(movie));
         }
 
         private bool MovieExists(int id)
