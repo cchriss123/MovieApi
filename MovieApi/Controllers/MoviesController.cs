@@ -49,6 +49,18 @@ namespace MovieApi.Controllers
             
             return new MovieDetailDto(movie);
         }
+        
+        // POST: api/Movies
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<MovieDto>> PostMovie(MovieCreateDto createMovieDto)
+        {
+            var movie = MovieMapper.MapCreate(createMovieDto);
+            context.Movie.Add(movie);
+            await context.SaveChangesAsync();
+            return new MovieDto(movie);
+        }
+        
 
         
         // [HttpPut("{id:int}")]
@@ -76,27 +88,7 @@ namespace MovieApi.Controllers
         //     return NoContent();
         // }
         //
-        // // POST: api/Movies
-        // // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        // [HttpPost]
-        // public async Task<ActionResult<MovieDto>> PostMovie(MovieCreateDto createMovieDto)
-        // {
-        //     var movie = mapper.Map<Movie>(createMovieDto);
-        //     context.Movie.Add(movie);
-        //     
-        //     Console.WriteLine("gsgddgs");
-        //     await context.SaveChangesAsync();
-        //     
-        //     
-        //   
-        //     var movieInt = await context.SaveChangesAsync();
-        //     var movieDto = context.Movie.FirstOrDefaultAsync(m => m.Id == movieInt);
-        //     
-        //     return mapper.Map<MovieDto>(movieDto);
-        //
-        //     
-        // }
-        //
+
         // // DELETE: api/Movies/5
         // [HttpDelete("{id:int}")]
         // public async Task<IActionResult> DeleteMovie(int id)

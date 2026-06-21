@@ -10,5 +10,16 @@ public static class MovieMapper
     {
         return movies.Select(movie => new MovieDto(movie)).ToList();
     }
-    
+
+    public static Movie MapCreate(MovieCreateDto createMovieDto)
+    {
+        return new Movie
+        {
+            Title = createMovieDto.Title,
+            Genre = createMovieDto.Genre,
+            Year = createMovieDto.Year,
+            Duration = createMovieDto.Duration
+        };
+    }
 }
+
