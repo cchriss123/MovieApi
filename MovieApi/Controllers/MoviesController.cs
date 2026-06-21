@@ -89,21 +89,21 @@ namespace MovieApi.Controllers
         // }
         //
 
-        // // DELETE: api/Movies/5
-        // [HttpDelete("{id:int}")]
-        // public async Task<IActionResult> DeleteMovie(int id)
-        // {
-        //     var movie = await context.Movie.FindAsync(id);
-        //     if (movie == null)
-        //     {
-        //         return NotFound();
-        //     }
-        //
-        //     context.Movie.Remove(movie);
-        //     await context.SaveChangesAsync();
-        //
-        //     return NoContent();
-        // }
+        // DELETE: api/Movies/5
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteMovie(int id)
+        {
+            var movie = await context.Movie.FindAsync(id);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+        
+            context.Movie.Remove(movie);
+            await context.SaveChangesAsync();
+        
+            return NoContent();
+        }
 
         private bool MovieExists(int id)
         {
