@@ -1,9 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MovieApi.Data;
-using Microsoft.Extensions.DependencyInjection;
 using MovieApi.Data.Seed;
-using MovieApi.Mapper;
-using MovieApi.Mapper;
 
 
 var builder = WebApplication.CreateBuilder(args);

@@ -9,7 +9,7 @@ namespace MovieApi.Controllers;
 [ApiController]
 public class ActorsController(MovieApiContext context) : ControllerBase
 {
-    // Relationship endpoints (Movie ↔ Actor) are implemented in MoviesController since the route starts with /api/movies.
+    // Relationship endpoints (Movie <-> Actor) are implemented in MoviesController since the route starts with /api/movies.
     // Standard scaffolded CRUD endpoints below.
     
     // GET: api/Actors
