@@ -9,27 +9,9 @@ namespace MovieApi.Controllers;
 [ApiController]
 public class ActorsController(MovieApiContext context) : ControllerBase
 {
-    // POST /api/movies/{movieId}/actors/{actorId}
-    [HttpPost("{movieId:int}/actors/{actorId:int}")]
-    public async Task<IActionResult> PostActorToMovie(int movieId, int actorId)
-    {
-        var movie = await context.Movie
-            .Include(m => m.Actors )
-            .FirstOrDefaultAsync(m => m.Id == movieId);
-            
-        var actor = await context.Actor.FindAsync(actorId);
-
-        if (movie == null || actor == null) return NotFound();
-            
-        if (movie.Actors.Any(a => a.Id == actorId)) return BadRequest("Actor already assigned to movie.");
-            
-        movie.Actors.Add(actor);
-        await context.SaveChangesAsync();
-        return Ok("Actor added to movie.");
-    }
-          
-    // Scaffolded code under....
-
+    // Relationship endpoints (Movie ↔ Actor) are implemented in MoviesController since the route starts with /api/movies.
+    // Standard scaffolded CRUD endpoints below.
+    
     // GET: api/Actors
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Actor>>> GetActor()
