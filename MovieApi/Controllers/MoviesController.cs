@@ -1,14 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MovieApi.Data;
 using MovieApi.Dto;
 using MovieApi.Mapper;
-using MovieApi.Models;
 
 namespace MovieApi.Controllers
 {
@@ -60,34 +54,6 @@ namespace MovieApi.Controllers
             await context.SaveChangesAsync();
             return CreatedAtAction("GetMovie", new { id = movie.Id }, new MovieDto(movie));
         }
-        
-
-        
-        // [HttpPut("{id:int}")]
-        // public async Task<IActionResult> PutMovie(int id, MovieUpdateDto movieDto)
-        // {
-        //     
-        //     
-        //     var movie = await context.Movie.FindAsync(id);
-        //     if (movie == null) return NotFound();
-        //     
-        //     
-        //     
-        //    
-        //
-        //     try
-        //     {
-        //         await context.SaveChangesAsync();
-        //     }
-        //     catch (DbUpdateConcurrencyException)
-        //     {
-        //         if (!MovieExists(id)) return NotFound();
-        //         throw;
-        //     }
-        //
-        //     return NoContent();
-        // }
-        //
 
         [HttpPut("{id:int}")]
         public async Task<IActionResult> PutMovie(int id, MovieUpdateDto movieUpdateDto)
