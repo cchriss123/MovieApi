@@ -5,14 +5,12 @@ using MovieApi.Dto;
 
 namespace MovieApi.Controllers;
 
-[Route("api/[controller]")]
+[Route("api")]
 [ApiController]
 public class ReviewController(MovieApiContext context) : ControllerBase
 {
-    
-    // GET /api/movies/{movieId}/reviews
-    [HttpGet("{id:int}/reviews")]
-    public async Task<ActionResult<IEnumerable<ReviewDto>>> GetMovieDetails(int id)
+    [HttpGet("movies/{id:int}/reviews")]
+    public async Task<ActionResult<IEnumerable<ReviewDto>>> GetMovieReviews(int id)
     {
         
         var movie = await context.Movie

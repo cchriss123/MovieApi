@@ -28,7 +28,7 @@ namespace MovieApi.Controllers
             return new MovieDto(movie);
         }
         
-        // GET: api/Movies/5
+        // GET: api/Movies/5/details
         [HttpGet("{id:int}/details")]
         public async Task<ActionResult<MovieDetailDto>> GetMovieDetail(int id)
         {
@@ -83,7 +83,6 @@ namespace MovieApi.Controllers
         [HttpPost("{movieId:int}/actors/{actorId:int}")]
         public async Task<IActionResult> PostActorToMovie(int movieId, int actorId)
         {
-            Console.WriteLine("did we even get here?");
             var movie = await context.Movie
                 .Include(m => m.Actors )
                 .FirstOrDefaultAsync(m => m.Id == movieId);
@@ -97,6 +96,23 @@ namespace MovieApi.Controllers
             movie.Actors.Add(actor);
             await context.SaveChangesAsync();
             return Ok("Actor added to movie.");
+        }
+        
+        // DELETE: api/Movies/5
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteMovie(int id)
+        {
+            var movie = await context.Movie.FindAsync(id);
+
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            context.Movie.Remove(movie);
+            await context.SaveChangesAsync();
+
+            return NoContent();
         }
 
         private bool MovieExists(int id)
