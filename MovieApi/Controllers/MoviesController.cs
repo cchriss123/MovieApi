@@ -78,26 +78,7 @@ public class MoviesController(MovieApiContext context) : ControllerBase
 
         return Ok(new MovieDto(movie));
     }
-        
-    // POST /api/movies/{movieId}/actors/{actorId}
-    [HttpPost("{movieId:int}/actors/{actorId:int}")]
-    public async Task<IActionResult> PostActorToMovie(int movieId, int actorId)
-    {
-        var movie = await context.Movie
-            .Include(m => m.Actors )
-            .FirstOrDefaultAsync(m => m.Id == movieId);
-            
-        var actor = await context.Actor.FindAsync(actorId);
-
-        if (movie == null || actor == null) return NotFound();
-            
-        if (movie.Actors.Any(a => a.Id == actorId)) return BadRequest("Actor already assigned to movie.");
-            
-        movie.Actors.Add(actor);
-        await context.SaveChangesAsync();
-        return Ok("Actor added to movie.");
-    }
-        
+    
     // DELETE: api/Movies/5
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteMovie(int id)
