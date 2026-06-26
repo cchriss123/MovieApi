@@ -3,7 +3,7 @@ using MovieApi.Models;
 
 namespace MovieApi.Data.Seed;
 
-public class DbSeeder
+public static class DbSeeder
 {
     public static async Task SeedAsync(MovieApiContext context)
     {
