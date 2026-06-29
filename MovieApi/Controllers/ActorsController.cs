@@ -7,25 +7,41 @@ namespace MovieApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ActorsController(MovieApiContext context) : ControllerBase
+public class ActorsController(MovieApiContext context, ILogger<ActorsController> logger) : ControllerBase
 {
     
-    // POST /api/movies/{movieId}/actors/{actorId}
+// POST /api/movies/{movieId}/actors/{actorId}
     [HttpPost("/api/movies/{movieId:int}/actors/{actorId:int}")]
     public async Task<IActionResult> PostActorToMovie(int movieId, int actorId)
     {
+        if (logger.IsEnabled(LogLevel.Information))
+            logger.LogInformation(
+                "Adding actor with id {ActorId} to movie with id {MovieId}.",
+                actorId, movieId);
+
         var movie = await context.Movie
-            .Include(m => m.Actors )
+            .Include(m => m.Actors)
             .FirstOrDefaultAsync(m => m.Id == movieId);
-            
+
         var actor = await context.Actor.FindAsync(actorId);
 
-        if (movie == null || actor == null) return NotFound();
+        if (movie == null || actor == null)
+        {
+            logger.LogWarning("Movie with id {MovieId} or actor with id {ActorId} was not found.", movieId, actorId);
+
+            return NotFound();
+        }
+
+        if (movie.Actors.Any(a => a.Id == actorId))
+        {
             
-        if (movie.Actors.Any(a => a.Id == actorId)) return BadRequest("Actor already assigned to movie.");
-            
+            logger.LogWarning("Actor with id {ActorId} is already assigned to movie with id {MovieId}.", actorId, movieId);
+            return BadRequest("Actor already assigned to movie.");
+        }
+
         movie.Actors.Add(actor);
         await context.SaveChangesAsync();
+
         return Ok("Actor added to movie.");
     }
     

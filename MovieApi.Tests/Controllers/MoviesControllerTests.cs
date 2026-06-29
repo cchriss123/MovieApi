@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using MovieApi.Controllers;
 using MovieApi.Data;
 using MovieApi.Models;
@@ -15,6 +17,10 @@ public class MoviesControllerTests
 
         return new MovieApiContext(options);
     }
+
+    private readonly ILogger<MoviesController> _logger =
+        NullLogger<MoviesController>.Instance;
+    
     
     [Fact]
     public async Task GetMovie_ReturnsMovie_WhenMovieExists()
@@ -33,7 +39,7 @@ public class MoviesControllerTests
         context.Movie.Add(movie);
         await context.SaveChangesAsync();
 
-        var controller = new MoviesController(context);
+        var controller = new MoviesController(context, _logger);
 
         // Act
         var result = await controller.GetMovie(1);
@@ -60,7 +66,7 @@ public class MoviesControllerTests
         context.Movie.Add(movie);
         await context.SaveChangesAsync();
 
-        var controller = new MoviesController(context);
+        var controller = new MoviesController(context, _logger);
 
         // Act
         var result = await controller.DeleteMovie(1);
@@ -74,7 +80,7 @@ public class MoviesControllerTests
     {
         // Arrange
         await using var context = CreateContext();
-        var controller = new MoviesController(context);
+        var controller = new MoviesController(context, _logger);
 
         // Act
         var result = await controller.GetMovie(999);
