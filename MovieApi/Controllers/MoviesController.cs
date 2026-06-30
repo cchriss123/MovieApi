@@ -1,3 +1,5 @@
+#pragma warning disable CS1591
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MovieApi.Data;
@@ -51,6 +53,7 @@ public class MoviesController(MovieApiContext context, ILogger<MoviesController>
         logger.LogWarning("Movie with id {MovieId} was not found.", id);
         return NotFound();
     }
+    
 
     // POST: api/Movies
     [HttpPost]

@@ -1,8 +1,8 @@
+#pragma warning disable CS1591
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MovieApi.Data;
 using MovieApi.Dto;
-
 namespace MovieApi.Controllers;
 
 [Route("api")]

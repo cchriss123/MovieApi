@@ -1,16 +1,22 @@
+#pragma warning disable CS1591
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MovieApi.Data;
 using MovieApi.Models;
-
 namespace MovieApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
 public class ActorsController(MovieApiContext context, ILogger<ActorsController> logger) : ControllerBase
 {
-    
-// POST /api/movies/{movieId}/actors/{actorId}
+      
+    // POST /api/movies/{movieId}/actors/{actorId}
+    /// <summary>
+    /// Endpoint to add existing actor to existing movie.
+    /// </summary>
+    /// <param name="movieId"></param>
+    /// <param name="actorId"></param>
+    /// <returns></returns>
     [HttpPost("/api/movies/{movieId:int}/actors/{actorId:int}")]
     public async Task<IActionResult> PostActorToMovie(int movieId, int actorId)
     {
