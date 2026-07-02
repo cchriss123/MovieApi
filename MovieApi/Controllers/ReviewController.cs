@@ -1,12 +1,14 @@
 #pragma warning disable CS1591
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MovieApi.Data;
 using MovieApi.Dto;
 namespace MovieApi.Controllers;
 
-[Route("api")]
 [ApiController]
+[Route("api/v{version:apiVersion}/[controller]")]
+[ApiVersion("1.0")]
 public class ReviewController(MovieApiContext context, ILogger<ReviewController> logger) : ControllerBase
 {
     // GET: api/movies/{id}/reviews

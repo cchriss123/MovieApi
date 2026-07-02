@@ -1,12 +1,14 @@
 #pragma warning disable CS1591
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MovieApi.Data;
 using MovieApi.Models;
 namespace MovieApi.Controllers;
 
-[Route("api/[controller]")]
 [ApiController]
+[Route("api/v{version:apiVersion}/[controller]")]
+[ApiVersion("1.0")]
 public class ActorsController(MovieApiContext context, ILogger<ActorsController> logger) : ControllerBase
 {
       

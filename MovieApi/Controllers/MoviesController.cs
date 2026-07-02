@@ -1,5 +1,6 @@
 #pragma warning disable CS1591
 
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MovieApi.Data;
@@ -8,7 +9,9 @@ using MovieApi.Mapper;
 
 namespace MovieApi.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/v{version:apiVersion}/[controller]")]
+[ApiVersion("1.0")]
+[ApiVersion("2.0")]
 [ApiController]
 public class MoviesController(MovieApiContext context, ILogger<MoviesController> logger) : ControllerBase
 {
@@ -22,6 +25,7 @@ public class MoviesController(MovieApiContext context, ILogger<MoviesController>
 
     // GET: api/Movies/5
     [HttpGet("{id:int}")]
+    [MapToApiVersion("1.0")]
     public async Task<ActionResult<MovieDto>> GetMovie(int id)
     {
         if (logger.IsEnabled(LogLevel.Information)) 
@@ -30,6 +34,22 @@ public class MoviesController(MovieApiContext context, ILogger<MoviesController>
         var movie = await context.Movie.FindAsync(id);
 
         if (movie != null) return new MovieDto(movie);
+        logger.LogWarning("Movie with id {MovieId} was not found.", id);
+        return NotFound();
+    }
+    
+    [HttpGet("{id:int}")]
+    [MapToApiVersion("2.0")]
+    public async Task<ActionResult<object>> GetMovieV2(int id)
+    {
+        var movie = await context.Movie.FindAsync(id);
+
+        if (movie != null)
+            return new
+            {
+                Movie = new MovieDto(movie),
+                ApiVersion = "2.0"
+            };
         logger.LogWarning("Movie with id {MovieId} was not found.", id);
         return NotFound();
     }
@@ -104,6 +124,7 @@ public class MoviesController(MovieApiContext context, ILogger<MoviesController>
     }
 
     // DELETE: api/Movies/5
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteMovie(int id)
     {
         if (logger.IsEnabled(LogLevel.Information)) logger.LogInformation("Deleting movie with id {MovieId}.", id);
