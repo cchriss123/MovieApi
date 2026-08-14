@@ -1,6 +1,6 @@
-@MovieApi_HostAddress = http://localhost:5100
+@MovieApi_HostAddress = http://localhost:8080
 
-GET {{MovieApi_HostAddress}}/api/Actors
+GET {{MovieApi_HostAddress}}/api/v1/Actors
 Accept: application/json
 
 ###

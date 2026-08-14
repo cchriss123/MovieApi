@@ -8,7 +8,7 @@
       - "8080:8080"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__MovieContext: "Server=db,1433;Database=MovieDb;User Id=sa;Password=Password123!;TrustServerCertificate=True;"
+      ConnectionStrings__MovieApiContext: "Server=db,1433;Database=MovieDb;User Id=sa;Password=Password123!;TrustServerCertificate=True;"
     depends_on:
       - db
 
