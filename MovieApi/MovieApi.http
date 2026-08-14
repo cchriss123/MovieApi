@@ -1,6 +1,117 @@
 @MovieApi_HostAddress = http://localhost:8080
 
+### =========================
+### ACTORS
+### =========================
+
+### Get all actors
 GET {{MovieApi_HostAddress}}/api/v1/Actors
 Accept: application/json
 
 ###
+
+### Get actor by ID
+GET {{MovieApi_HostAddress}}/api/v1/Actors/1
+Accept: application/json
+
+###
+
+### Create actor
+POST {{MovieApi_HostAddress}}/api/v1/Actors
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Leonardo DiCaprio",
+  "birthYear": 1974
+}
+
+###
+
+### Update actor
+PUT {{MovieApi_HostAddress}}/api/v1/Actors/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Leonardo DiCaprio",
+  "birthYear": 1974
+}
+
+###
+
+### Delete actor
+DELETE {{MovieApi_HostAddress}}/api/v1/Actors/1
+Accept: application/json
+
+
+### =========================
+### MOVIES
+### =========================
+
+### Get all movies
+GET {{MovieApi_HostAddress}}/api/v1/Movies
+Accept: application/json
+
+###
+
+### Get movie by ID
+GET {{MovieApi_HostAddress}}/api/v1/Movies/1
+Accept: application/json
+
+###
+
+### Get movie details
+GET {{MovieApi_HostAddress}}/api/v1/Movies/1/details
+Accept: application/json
+
+###
+
+### Create movie
+POST {{MovieApi_HostAddress}}/api/v1/Movies
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "Inception",
+  "genre": "Sci-Fi",
+  "year": 2010,
+  "duration": "148 min"
+}
+
+###
+
+### Update movie
+PUT {{MovieApi_HostAddress}}/api/v1/Movies/1
+Content-Type: application/json
+
+{
+  "title": "Inception",
+  "genre": "Science Fiction",
+  "year": 2010,
+  "duration": "148 min"
+}
+
+###
+
+### Delete movie
+DELETE {{MovieApi_HostAddress}}/api/v1/Movies/1
+Accept: application/json
+
+
+### =========================
+### MOVIE / ACTOR
+### =========================
+
+### Add existing actor to existing movie
+POST {{MovieApi_HostAddress}}/api/movies/1/actors/1
+Accept: application/json
+
+
+### =========================
+### REVIEWS
+### =========================
+
+### Get reviews for movie
+GET {{MovieApi_HostAddress}}/api/v1/Review/movies/1/reviews
+Accept: application/json

@@ -104,7 +104,7 @@ public class ActorsController(MovieApiContext context, ILogger<ActorsController>
             }
         }
 
-        return NoContent();
+        return Ok(actor);
     }
 
     // POST: api/Actors
