@@ -24,10 +24,17 @@ builder.Services.AddApiVersioning(options =>
         options.SubstituteApiVersionInUrl = true;
     });
 
+builder.Services.AddCors();
 
 
 
 var app = builder.Build();
+
+app.UseCors(policy =>
+    policy
+        .AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod());
 
 if (app.Environment.IsDevelopment())
 {
