@@ -123,24 +123,32 @@ public class MoviesController(MovieApiContext context, ILogger<MoviesController>
         return Ok(new MovieDto(movie));
     }
 
-    // DELETE: api/Movies/5
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteMovie(int id)
     {
-        if (logger.IsEnabled(LogLevel.Information)) logger.LogInformation("Deleting movie with id {MovieId}.", id);
+        if (logger.IsEnabled(LogLevel.Information))
+            logger.LogInformation("Deleting movie with id {MovieId}.", id);
 
-        var movie = await context.Movie.FindAsync(id);
+        var movie = await context.Movie
+            .Include(m => m.Reviews)
+            .FirstOrDefaultAsync(m => m.Id == id);
 
         if (movie == null)
         {
-            logger.LogWarning("Cannot delete movie with id {MovieId} because it was not found.", id);
+            logger.LogWarning(
+                "Cannot delete movie with id {MovieId} because it was not found.",
+                id
+            );
+
             return NotFound();
         }
 
+        context.Review.RemoveRange(movie.Reviews);
         context.Movie.Remove(movie);
+
         await context.SaveChangesAsync();
 
-        if (logger.IsEnabled(LogLevel.Information)) 
+        if (logger.IsEnabled(LogLevel.Information))
             logger.LogInformation("Movie with id {MovieId} was deleted.", id);
 
         return NoContent();
