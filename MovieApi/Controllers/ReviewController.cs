@@ -1,22 +1,30 @@
 #pragma warning disable CS1591
+
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MovieApi.Data;
 using MovieApi.Dto;
+using MovieApi.Models;
+
 namespace MovieApi.Controllers;
 
 [ApiController]
-[Route("api/v{version:apiVersion}/[controller]")]
+[Route("api/v{version:apiVersion}/movies")]
 [ApiVersion("1.0")]
-public class ReviewController(MovieApiContext context, ILogger<ReviewController> logger) : ControllerBase
+public class ReviewController(
+    MovieApiContext context,
+    ILogger<ReviewController> logger
+) : ControllerBase
 {
-    // GET: api/movies/{id}/reviews
-    [HttpGet("movies/{id:int}/reviews")]
+    [HttpGet("{id:int}/reviews")]
     public async Task<ActionResult<IEnumerable<ReviewDto>>> GetMovieReviews(int id)
     {
         if (logger.IsEnabled(LogLevel.Information))
-            logger.LogInformation("Fetching reviews for movie with id {MovieId}.", id);
+            logger.LogInformation(
+                "Fetching reviews for movie with id {MovieId}.",
+                id
+            );
 
         var movie = await context.Movie
             .Include(m => m.Reviews)
@@ -24,13 +32,55 @@ public class ReviewController(MovieApiContext context, ILogger<ReviewController>
 
         if (movie == null)
         {
-            logger.LogWarning("Movie with id {MovieId} was not found.", id);
+            logger.LogWarning(
+                "Movie with id {MovieId} was not found.",
+                id
+            );
+
             return NotFound("Movie not found");
         }
 
         return movie.Reviews
-            .Select(r => new ReviewDto(r))
+            .Select(review => new ReviewDto(review))
             .ToList();
     }
-    
+
+    [HttpPost("{id:int}/reviews")]
+    public async Task<ActionResult<ReviewDto>> PostMovieReview(
+        int id,
+        ReviewCreateDto input
+    )
+    {
+        if (logger.IsEnabled(LogLevel.Information))
+            logger.LogInformation(
+                "Adding review to movie with id {MovieId}.",
+                id
+            );
+
+        var movie = await context.Movie
+            .Include(m => m.Reviews)
+            .FirstOrDefaultAsync(m => m.Id == id);
+
+        if (movie == null)
+        {
+            logger.LogWarning(
+                "Movie with id {MovieId} was not found.",
+                id
+            );
+
+            return NotFound("Movie not found");
+        }
+
+        var review = new Review
+        {
+            ReviewerName = input.ReviewerName,
+            Comment = input.Comment,
+            Rating = input.Rating
+        };
+
+        movie.Reviews.Add(review);
+        await context.SaveChangesAsync();
+
+        return Ok(new ReviewDto(review));
+    }
 }
